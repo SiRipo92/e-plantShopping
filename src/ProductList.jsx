@@ -10,10 +10,6 @@ function ProductList() {
     const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch(); // Initialize useDispatch to access the Redux store
 
-    const toggleShowPlants = () => {
-        setShowPlants((prev) => !prev); // Toggle the visibility of the plant list
-    };
-
     const toggleShowCart = () => {
         setShowCart((prev) => !prev); // Toggle the visibility of the cart
     };
@@ -272,11 +268,11 @@ const handlePlantsClick = (e) => {
   };
 
 // Function to add a plant to the cart
-const handleAddToCart = (product) => {
-    dispatch(addItem(product)); // Dispatch the addItem action with the product
+const handleAddToCart = (plant) => {
+    dispatch(addItem(plant)); // Dispatch the addItem action with the product
     setAddedToCart((prevState) => ({
         ...prevState,
-        [product.name]: true, //Update addedToCart state
+        [plant.name]: true, //Update addedToCart state
     }));
 };
 
@@ -313,7 +309,7 @@ const handleAddToCart = (product) => {
                                 {/* Displaying additional details like description and cost */}
                                 <div className="product-description">{plant.description}</div>
                                 <div className="product-cost">{plant.cost}</div>
-                                <button className="product-button" onClick={() => handleAddToCart({ id: plant.id, name: plant.name, price: plant.cost, quantity: 1 })}>Add to Cart</button>
+                                <button className="product-button" onClick={() => handleAddToCart({ name: plant.name, price: plant.cost, quantity: 1 })}>Add to Cart</button>
                             </div>
                         ))}
                     </div>
