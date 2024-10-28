@@ -10,17 +10,6 @@ function ProductList() {
     const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch(); // Initialize useDispatch to access the Redux store
 
-    const addToCart = (plant) => {
-        const item = {
-            name: plant.name,
-            image: plant.image,
-            cost: plant.cost,
-        };
-
-        dispatch(addItem(item)); // Dispatch the add item action
-        setAddedToCart((prev) => ({ ...prev, [plant.name]: true })); // Mark the plant as added to the cart
-    };
-
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -252,29 +241,34 @@ function ProductList() {
         textDecoration: 'none',
     };
 
-const handleCartClick = (e) => {
-    e.preventDefault();
-    setShowCart(true); // Set showCart to true when cart icon is clicked
+    const handleCartClick = (e) => {
+        e.preventDefault();
+        setShowCart(true);  // Show the cart
+        setShowPlants(false); // Ensure plants are hidden
     };
-const handlePlantsClick = (e) => {
-    e.preventDefault();
-    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-    setShowCart(false); // Hide the cart when navigating to About Us
+    
+    const handlePlantsClick = (e) => {
+        e.preventDefault();
+        setShowCart(false);  // Ensure cart is hidden
+        setShowPlants(true);  // Show plants
+    };
+    
+    const handleContinueShopping = (e) => {
+        e.preventDefault();
+        setShowCart(false);  // Hide cart when continuing shopping
+        setShowPlants(true); // Show plants
     };
 
-const handleContinueShopping = (e) => {
-    e.preventDefault();
-    setShowCart(false);
-    };
+const addToCart = (plant) => {
+        const item = {
+            name: plant.name,
+            image: plant.image,
+            cost: plant.cost,
+        };
 
-// Function to add a plant to the cart
-const handleAddToCart = (plant) => {
-    dispatch(addItem(plant)); // Dispatch the addItem action with the product
-    setAddedToCart((prevState) => ({
-        ...prevState,
-        [plant.name]: true, //Update addedToCart state
-    }));
-};
+        dispatch(addItem(item)); // Dispatch the add item action
+        setAddedToCart((prev) => ({ ...prev, [plant.name]: true })); // Mark the plant as added to the cart
+    };
 
 return (
     <div>
@@ -308,10 +302,10 @@ return (
                     <div className="product-description">{plant.description}</div>
                     <div className="product-cost">{plant.cost}</div>
                     <button
-                      className="product-button"
-                      onClick={() => handleAddToCart(plant)}
-                      disabled={addedToCart[plant.name]}>
-                      {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                    className="product-button"
+                    onClick={() => addToCart(plant)} // Use addToCart instead of handleAddToCart
+                    disabled={addedToCart[plant.name]}>
+                    {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                     </button>
                 </div>
                 ))}

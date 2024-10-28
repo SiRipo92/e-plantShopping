@@ -4,6 +4,8 @@ export const CartSlice = createSlice({
   name: 'cart',
   initialState: {
     items: [], // Initialize items as an empty array
+    showCart: false, // Controls cart visibility
+    showPlants: true, //Controls plant visibility
   },
   reducers: {
     addItem: (state, action) => {
@@ -16,8 +18,8 @@ export const CartSlice = createSlice({
         }
     },
     removeItem: (state, action) => {
-    // This filters out the item by its id from the state.items array
-    state.items = state.items.filter(item => item.name !== action.payload.name);
+    // This filters out the item by its name from the state.items array
+    state.items = state.items.filter(item => item.name !== action.payload);
     },
     updateQuantity: (state, action) => {
         const { name, quantity } = action.payload;
@@ -26,9 +28,12 @@ export const CartSlice = createSlice({
           itemToUpdate.quantity = quantity;
         }
     },
+    toggleCartVisibility: (state) => {
+        state.showCart = !state.showCart;
+    },
   },
 });
 
-export const { addItem, removeItem, updateQuantity } = CartSlice.actions;
+export const { addItem, removeItem, updateQuantity, toggleCartVisibility } = CartSlice.actions;
 
 export default CartSlice.reducer;
